@@ -3,8 +3,6 @@ const artistsRouter = express.Router();
 const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database(process.env.TEST_DATABASE || '../database.sqlite');
 // load process.env.TEST_DATABASE if it had been set or load database.sqlite
-const errorhandler = require('errorhandler');
-const apiRouter = require('./api');
 
 artistsRouter.param('artistId', (req, res, next, artistId) => {
     const sql = 'SELECT * FROM Artist WHERE Artist.id = $artistId';
@@ -106,3 +104,4 @@ artistsRouter.delete('/:artistId', (req, res, next) => {
         }
     })
 });
+module.exports = artistsRouter;
