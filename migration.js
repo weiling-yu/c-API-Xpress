@@ -1,4 +1,5 @@
 const sqlite3 = require('sqlite3');
+const bodyParser = require('body-parser');
 const db = new sqlite3.Database('./database.sqlite'); 
 // Open the database.sqlite file as a sqlite3 database object and save it to a variable.
 
@@ -19,4 +20,17 @@ db.serialize(() => {
         name TEXT NOT NULL,
         description TEXT NOT NULL
     )`);
+});
+db.serialize(() => {
+    db.run(`DROP TABLE IF EXISTS Issues`);
+    db.run(`CREATE TABLE IF NOT EXISTS Issues (
+        id INTEGER NOT NULL PRIMARY KEY,
+        name TEXT NOT NULL,
+        issue_number INTEGER NOT NULL,
+        publication_date TEXT NOT NULL,
+        artist_id INTEGER NOT NULL,
+        series_id INTEGER NOT NULL,
+        FOREIGN KEY(artist_id) REFERENCES Artist(id),
+        FOREIGN KEY(series_id) REFERENCES Series(id) 
+    )`)
 })
